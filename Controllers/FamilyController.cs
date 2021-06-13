@@ -24,14 +24,14 @@ namespace bioverse.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Family>>> GetFamily()
         {
-            return await _context.Family.ToListAsync();
+            return await _context.Family.Include(f => f.Species).ToListAsync();
         }
 
         // GET: api/Family/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Family>> GetFamily(int id)
         {
-            var family = await _context.Family.FindAsync(id);
+            var family = await _context.Family.Include(f => f.Species).SingleAsync(f => f.Id == id);
 
             if (family == null)
             {

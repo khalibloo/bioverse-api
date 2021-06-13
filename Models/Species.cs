@@ -16,5 +16,8 @@ namespace Bioverse.Models
         public string Description { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public int FamilyId { get; set; }
+        public Family Family { get; set; }
     }
 }

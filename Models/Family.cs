@@ -15,5 +15,8 @@ namespace Bioverse.Models
 
         [SwaggerSchema("The family description")]
         public string Description { get; set; }
+
+        [SwaggerSchema("The species in this family", ReadOnly = true)]
+        public List<Species> Species { get; set; }
     }
 }

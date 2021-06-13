@@ -32,7 +32,7 @@ namespace bioverse.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Species>> GetSpecies(int id)
         {
-            var species = await _context.Species.FindAsync(id);
+            var species = await _context.Species.Include(s => s.Family).SingleAsync(s => s.Id == id);
 
             if (species == null)
             {
@@ -79,6 +79,10 @@ namespace bioverse.Controllers
         [HttpPost]
         public async Task<ActionResult<Species>> PostSpecies(Species species)
         {
+            if (species.FamilyId > 0)
+            {
+                species.Family = await _context.Family.FindAsync(species.FamilyId);
+            }
             _context.Species.Add(species);
             await _context.SaveChangesAsync();
 
