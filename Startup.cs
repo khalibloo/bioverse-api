@@ -19,6 +19,8 @@ namespace Bioverse
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -39,6 +41,16 @@ namespace Bioverse
 
             // lowercase routing
             services.AddRouting(options => options.LowercaseUrls = true);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000");
+                    }
+                );
+            });
 
             // prevent cyclic nested models in json serialization
             services.AddControllersWithViews()
@@ -68,6 +80,8 @@ namespace Bioverse
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
