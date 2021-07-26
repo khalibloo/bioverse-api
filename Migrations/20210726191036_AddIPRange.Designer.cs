@@ -2,15 +2,17 @@
 using Bioverse.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace bioverse.Migrations
 {
     [DbContext(typeof(BioverseContext))]
-    partial class BioverseContextModelSnapshot : ModelSnapshot
+    [Migration("20210726191036_AddIPRange")]
+    partial class AddIPRange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

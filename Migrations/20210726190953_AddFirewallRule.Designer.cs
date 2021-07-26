@@ -2,15 +2,17 @@
 using Bioverse.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace bioverse.Migrations
 {
     [DbContext(typeof(BioverseContext))]
-    partial class BioverseContextModelSnapshot : ModelSnapshot
+    [Migration("20210726190953_AddFirewallRule")]
+    partial class AddFirewallRule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,6 +60,10 @@ namespace bioverse.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<string>("IPRange")
+                        .HasColumnType("text")
+                        .HasColumnName("ip_range");
+
                     b.Property<int>("Port")
                         .HasColumnType("integer")
                         .HasColumnName("port");
@@ -66,32 +72,6 @@ namespace bioverse.Migrations
                         .HasName("pk_firewall_rule");
 
                     b.ToTable("firewall_rule");
-                });
-
-            modelBuilder.Entity("Bioverse.Models.IPRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("FirewallRuleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("firewall_rule_id");
-
-                    b.Property<string>("Range")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("range");
-
-                    b.HasKey("Id")
-                        .HasName("pk_ip_range");
-
-                    b.HasIndex("FirewallRuleId")
-                        .HasDatabaseName("ix_ip_range_firewall_rule_id");
-
-                    b.ToTable("ip_range");
                 });
 
             modelBuilder.Entity("Bioverse.Models.Species", b =>
@@ -128,18 +108,6 @@ namespace bioverse.Migrations
                     b.ToTable("species");
                 });
 
-            modelBuilder.Entity("Bioverse.Models.IPRange", b =>
-                {
-                    b.HasOne("Bioverse.Models.FirewallRule", "FirewallRule")
-                        .WithMany("IPRange")
-                        .HasForeignKey("FirewallRuleId")
-                        .HasConstraintName("fk_ip_range_firewall_rule_firewall_rule_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FirewallRule");
-                });
-
             modelBuilder.Entity("Bioverse.Models.Species", b =>
                 {
                     b.HasOne("Bioverse.Models.Family", "Family")
@@ -155,11 +123,6 @@ namespace bioverse.Migrations
             modelBuilder.Entity("Bioverse.Models.Family", b =>
                 {
                     b.Navigation("Species");
-                });
-
-            modelBuilder.Entity("Bioverse.Models.FirewallRule", b =>
-                {
-                    b.Navigation("IPRange");
                 });
 #pragma warning restore 612, 618
         }

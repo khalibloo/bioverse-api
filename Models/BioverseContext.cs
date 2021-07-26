@@ -11,5 +11,7 @@ namespace Bioverse.Models
 
         public DbSet<Family> Family { get; set; }
         public DbSet<Species> Species { get; set; }
+        public DbSet<FirewallRule> FirewallRule { get; set; }
+        public DbSet<IPRange> IPRange { get; set; }
     }
 }
